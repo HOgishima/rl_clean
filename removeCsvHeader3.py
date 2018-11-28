@@ -6,11 +6,12 @@ import sys
 sys.path.append('/Users/HOgishima/.pyenv/versions/3.7.1/lib/python3.7/site-packages')
 import pandas as pd
 
-os.chdir('./python/rl_clean') # ここでフォルダを選択
+os.chdir('./python/rl_clean/data') # ここでフォルダを選択
 #os.makedirs('clean', exist_ok=True)
 
 # CSVファイルのみを探して変数に格納
-for (folder, subfolders, files) in os.walk('.'):
+for (folder, subfolders, files) in os.walk('/Users/HOgishima/Box Sync/Code/python/rl_clean/data'):
+    os.chdir('{}'.format(folder))
     for file in files:
         if not file.endswith('.csv'):
             continue # CSVファイルでなければスキップ
@@ -36,9 +37,7 @@ for (folder, subfolders, files) in os.walk('.'):
         file_delete.loc[(file_delete['stim2_posx'] == 0) & (file_delete['stim2_posy'] == -200), 'stim2'] = 'down'
 
         # subjIDとtrialの定義
-        i = 1
-        file_delete['subjID'] = str(i)
-        i = i+1
+        file_delete['subjID'] = '{}'.format(folder)
         file_delete['trial'] = list(file_delete.reset_index(drop=True).index+1)
 
         # choiceを定義
@@ -55,7 +54,8 @@ for (folder, subfolders, files) in os.walk('.'):
         file_delete.loc[file_delete['key_resp_correct.keys'] == 'None', 'outcome'] = -1
 
         # 書き出すファイルを作成
-        file_delete.to_csv('/Users/HOgishima/Box Sync/Code/python/clean/ri_clean.csv', columns=['subjID', 'trial', 'choice', 'outcome'],header=False, index=False, mode='a')
+        file_delete.to_csv('/Users/HOgishima/Box Sync/Code/python/clean/ri_clean.csv',
+        columns=['subjID', 'trial', 'choice', 'outcome'],header=False, index=False, mode='a')
 
-        print(file_delete)
+        print(file_delete[['subjID', 'trial', 'choice', 'outcome']])
     print('整理が完了しました')
