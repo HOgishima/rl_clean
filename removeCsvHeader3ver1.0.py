@@ -46,7 +46,7 @@ for (folder, subfolders, files) in os.walk('/Users/HOgishima/Box Sync/Code/pytho
         file_delete.loc[(file_delete['stim2'] == file_delete['key_resp_correct.keys']) |
             (file_delete['stim2'] == file_delete['key_resp_faulse.keys']), 'choice'] = 2
 
-        # outcomeを定義
+            # outcomeを定義
         file_delete.loc[file_delete['key_resp_correct.keys'] == 'up', 'outcome'] = 1
         file_delete.loc[file_delete['key_resp_correct.keys'] == 'right', 'outcome'] = 1
         file_delete.loc[file_delete['key_resp_correct.keys'] == 'left', 'outcome'] = 1
@@ -54,8 +54,9 @@ for (folder, subfolders, files) in os.walk('/Users/HOgishima/Box Sync/Code/pytho
         file_delete.loc[file_delete['key_resp_correct.keys'] == 'None', 'outcome'] = -1
 
         # 書き出すファイルを作成
-        file_delete.to_csv('/Users/HOgishima/Box Sync/Code/python/clean/ri_clean.csv',
-        columns=['subjID', 'trial', 'choice', 'outcome'],header=False, index=False, mode='a')
+        file_delete.to_csv('/Users/HOgishima/Box Sync/Code/python/clean/rl_clean.txt',
+        columns=['subjID', 'trial', 'choice', 'outcome'],header=False, index=False, mode='a', sep='\t')
 
         print(file_delete[['subjID', 'trial', 'choice', 'outcome']])
+
     print('整理が完了しました')
